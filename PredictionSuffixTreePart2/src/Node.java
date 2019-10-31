@@ -5,6 +5,7 @@ public class Node<T> {
 	ArrayList<T> tokenSequence = new ArrayList<T>(); // tokenSequence at this node
 	ArrayList<Node> children = new ArrayList<Node>();
 	int nodeCount = 1;
+	float empVal;
 	
 	// Methods
 	void setSequence(ArrayList<T> inputArray) {
@@ -35,6 +36,7 @@ public class Node<T> {
 			}
 			if(!found) {
 			children.add(testNode);
+			found=true;
 			}
 		}
 		return found;
@@ -76,8 +78,7 @@ public class Node<T> {
 	
 	public boolean pMinElimination (int totalTokens, float pMin) {
 		boolean shouldRemove;
-		float empVal = nodeCount / (totalTokens - (tokenSequence.size() -1));
-		System.out.println("Emp val =" + empVal);
+		empVal = nodeCount / (float) (totalTokens - (tokenSequence.size() -1));
 		if(tokenSequence.size() < 1) {
 			shouldRemove = false;
 		}
@@ -86,10 +87,10 @@ public class Node<T> {
 		}
 		if (!shouldRemove) {
 			//root node is skipped
-			for(int i=tokenSequence.size(); i>=0; i--) {
+			for(int i=(children.size()-1); i>=0; i--) {
 				children.get(i).pMinElimination(totalTokens, pMin);
 				if (children.get(i).pMinElimination(totalTokens, pMin)){
-					children.remove(i);
+					children.remove(children.get(i));
 				}
 			}
 		}
